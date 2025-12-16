@@ -15,10 +15,16 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: 'pip'
+          cache: pip
 
       - name: Install dependencies
         run: pip install -r task_a/requirements.txt
 
-      - name: Run pytest
-        run: pytest task_a/task_a.py
+      - name: Run pytest with HTML report
+        run: pytest task_a/task_a.py --html=report.html --self-contained-html
+
+      - name: Upload pytest report
+        uses: actions/upload-artifact@v4
+        with:
+          name: Report-ubuntu-3.11
+          path: report.html
