@@ -4,15 +4,21 @@ on: [push]
 
 jobs:
   test:
-    runs-on: "ubuntu-latest"
     name: pytest
+    runs-on: ubuntu-latest
+
     steps:
-        - uses: actions/checkout@v4
-        - name: Set up Python
-          uses: actions/setup-python@v5
-          with:
-            python-version: '3.11'
-        - name: Install dependencies
-          run: |
-            pip install -r ./task_a/requirements.txt
-        # TODO: run pytest
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r task_a/requirements.txt
+
+      - name: Run pytest
+        run: pytest task_a/task_a.py
